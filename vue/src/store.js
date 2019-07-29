@@ -7,7 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    running: false
+    running: 'No'
   },
   mutations: {
     running (state, payload) {
@@ -22,7 +22,7 @@ export default new Vuex.Store({
         }).then(function (data) {
           commit('running', data)
         }).catch(function (err) {
-          commit('running', false)
+          commit('running', 'No')
           console.error(err)
         })
     }
