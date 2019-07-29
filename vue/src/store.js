@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import echo from './store/echo'
 
 Vue.use(Vuex)
 
@@ -25,5 +26,8 @@ export default new Vuex.Store({
           console.error(err)
         })
     }
+  },
+  modules: {
+    echo
   }
 })

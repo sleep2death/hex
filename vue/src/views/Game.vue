@@ -1,8 +1,16 @@
-<template>
-  <div class="about">
-    <h1>Is server running? {{running}}</h1>
-  </div>
-</template>
+  <template>
+    <div>
+      <h1>Is server running? {{running}}</h1>
+      <div class="field has-addons">
+        <div class="control">
+          <input v-model="message" type="text" class="input" placeholder="Input here">
+        </div>
+        <div class="control">
+            <a class="button" @click="send">Echo</a>
+        </div>
+      </div>
+    </div>
+  </template>
 
 <script>
 // @ is an alias to /src
@@ -13,21 +21,26 @@ export default {
   components: {
   },
   methods: {
-    ...mapActions(['isServerRunning']),
-    connect () {
-      const conn = new WebSocket('ws://localhost:9090/ws')
-      conn.onopen = function (evt) {
-        console.log(evt)
-      }
-    }
+    ...mapActions(['isServerRunning', 'connect', 'send'])
   },
   mounted () {
     this.isServerRunning()
     this.connect()
   },
-  computed: mapState([
-  // map this.count to store.state.count
-    'running'
-  ])
+  computed: {
+    ...mapState([
+      // map this.count to store.state.count
+      'running',
+      'message'
+    ]),
+    message: {
+      get () {
+        return this.$store.state.echo.message
+      },
+      set (value) {
+        this.$store.commit('updateMessage', value)
+      }
+    }
+  }
 }
 </script>
