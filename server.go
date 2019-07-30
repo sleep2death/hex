@@ -21,6 +21,7 @@ func Serve(addr string) {
 	// create the router
 	r := gin.Default()
 
+	// ignore cors limit
 	r.Use(cors.Default())
 
 	// serve static files
@@ -32,6 +33,7 @@ func Serve(addr string) {
 		c.String(200, "Yes")
 	})
 
+	// handle websocket connection
 	r.GET("/ws", ws)
 
 	r.Run(addr)
