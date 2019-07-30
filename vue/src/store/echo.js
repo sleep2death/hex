@@ -11,6 +11,9 @@ export default {
     },
     connect (state, payload) {
       state.conn = payload
+    },
+    close (state) {
+      state.conn = null
     }
   },
   actions: {
@@ -22,6 +25,9 @@ export default {
       }
       conn.onmessage = function (evt) {
         console.log('receive:', evt.data)
+      }
+      conn.onclose = function (evt) {
+        commit('close', conn)
       }
     },
     send ({ commit, state }) {
