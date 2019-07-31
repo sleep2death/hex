@@ -12,10 +12,10 @@ import (
 
 const (
 	// Time allowed to write a message to the peer.
-	writeWait = 10 * time.Second
+	writeWait = 30 * time.Second
 
 	// Time allowed to read the next pong message from the peer.
-	pongWait = 10 * time.Second
+	pongWait = 30 * time.Second
 
 	// Send pings to peer with this period. Must be less than pongWait.
 	pingPeriod = (pongWait * 9) / 10
@@ -78,8 +78,10 @@ func (c *conn) readPump() {
 		return nil
 	})
 
+	// read loop
 	for {
 		mt, message, err := c.ws.ReadMessage()
+
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway) {
 				log.Printf("error: %v", err)
@@ -88,9 +90,9 @@ func (c *conn) readPump() {
 		}
 
 		// test echo
-		c.send <- message
-
-		log.Println("msg received:", mt, string(message))
+		if mt == websocket.TextMessage {
+			c.send <- message
+		}
 	}
 }
 
@@ -101,6 +103,7 @@ func (c *conn) write(mt int, payload []byte) error {
 }
 
 func (c *conn) writePump() {
+	// ping ticker
 	ticker := time.NewTicker(pingPeriod)
 	defer func() {
 		ticker.Stop()
@@ -151,7 +154,7 @@ func getWsHandler() gin.HandlerFunc {
 			return
 		}
 
-		wsc := conn{ws: ws, send: make(chan []byte, maxMessageSize)}
+		wsc := conn{ws: ws, send: make(chan []byte, 256)}
 		go wsc.writePump()
 		wsc.readPump()
 	}

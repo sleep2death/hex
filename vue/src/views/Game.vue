@@ -9,6 +9,11 @@
             <a class="button" @click="send">Echo</a>
         </div>
       </div>
+      <ul>
+        <li v-for="item in list" :key="item.id">
+          {{ item.message }}
+        </li>
+      </ul>
     </div>
   </template>
 
@@ -28,11 +33,11 @@ export default {
     this.connect()
   },
   computed: {
-    ...mapState([
+    ...mapState({
       // map this.count to store.state.count
-      'running',
-      'message'
-    ]),
+      running: 'running',
+      list: state => state.echo.list
+    }),
     message: {
       get () {
         return this.$store.state.echo.message
@@ -40,7 +45,7 @@ export default {
       set (value) {
         this.$store.commit('updateMessage', value)
       }
-    }
+    }  
   }
 }
 </script>

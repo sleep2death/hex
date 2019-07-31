@@ -1,9 +1,8 @@
-import moment from 'moment'
-
 export default {
   state: {
     message: '',
-    conn: null
+    conn: null,
+    list: []
   },
   mutations: {
     updateMessage (state, payload) {
@@ -14,6 +13,12 @@ export default {
     },
     close (state) {
       state.conn = null
+    },
+    updateList (state, payload) {
+      state.list.push({ message: payload, id: state.list.length })
+    },
+    clearMessage (state) {
+      state.message = ''
     }
   },
   actions: {
@@ -24,7 +29,7 @@ export default {
         console.log('websocket connected')
       }
       conn.onmessage = function (evt) {
-        console.log('receive:', evt.data)
+        commit('updateList', evt.data)
       }
       conn.onclose = function (evt) {
         commit('close', conn)
@@ -32,8 +37,9 @@ export default {
     },
     send ({ commit, state }) {
       if (state.conn != null) {
-        state.conn.send(state.message + ' - ' + moment().format('MMMM Do YYYY, h:mm:ss a'))
+        state.conn.send(state.message)
       }
+      commit('clearMessage')
     }
   }
 }
