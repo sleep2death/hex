@@ -6,8 +6,10 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang/protobuf/proto"
 	"github.com/gorilla/websocket"
 	cors "github.com/rs/cors/wrapper/gin"
+	"github.com/sleep2death/hex/pb"
 )
 
 const (
@@ -78,6 +80,8 @@ func (c *conn) readPump() {
 		return nil
 	})
 
+	// proto.RegisterType((*pb.Echo)(nil), "Echo")
+
 	// read loop
 	for {
 		mt, message, err := c.ws.ReadMessage()
@@ -92,6 +96,14 @@ func (c *conn) readPump() {
 		// test echo
 		if mt == websocket.TextMessage {
 			c.send <- message
+		} else if mt == websocket.BinaryMessage {
+			msg := &pb.Message{}
+			echo := &pb.Echo{}
+			proto.Unmarshal(message, msg)
+			log.Println(msg.GetMessage().TypeUrl)
+			proto.Unmarshal(msg.GetMessage().Value, echo)
+			log.Println(echo.Message)
+			// c.send <- []byte(echo.Message)
 		}
 	}
 }
@@ -120,18 +132,33 @@ func (c *conn) writePump() {
 			}
 
 			c.ws.SetWriteDeadline(time.Now().Add(writeWait))
-			w, err := c.ws.NextWriter(websocket.TextMessage)
+			w, err := c.ws.NextWriter(websocket.BinaryMessage)
 			if err != nil {
 				return
 			}
-			w.Write(message)
+
+			echo := &pb.Echo{
+				Message: string(message),
+			}
+
+			log.Println("send", echo.GetMessage())
+
+			buffer, err := proto.Marshal(echo)
+
+			if err != nil {
+				return
+			}
+
+			w.Write(buffer)
+
+			// c.ws.WriteMessage(websocket.BinaryMessage, buffer)
 
 			// Add queued chat messages to the current websocket message.
-			n := len(c.send)
-			for i := 0; i < n; i++ {
-				w.Write(newline)
-				w.Write(<-c.send)
-			}
+			// n := len(c.send)
+			// for i := 0; i < n; i++ {
+			// 	w.Write(newline)
+			// 	w.Write(<-c.send)
+			// }
 
 			if err := w.Close(); err != nil {
 				return

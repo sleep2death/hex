@@ -1,21 +1,19 @@
   <template>
-    <div>
-      <h1>Is server running? {{running}}</h1>
-      <div class="field has-addons">
-        <div class="control">
-          <input v-model="message" type="text" class="input" placeholder="Input here">
-        </div>
-        <div class="control">
-            <a class="button" @click="send">Echo</a>
-        </div>
+  <div>
+    <h1>Is server running? {{running}}</h1>
+    <div class="field has-addons">
+      <div class="control">
+        <input v-model="message" type="text" class="input" placeholder="Input here" />
       </div>
-      <ul>
-        <li v-for="item in list" :key="item.id">
-          {{ item.message }}
-        </li>
-      </ul>
+      <div class="control">
+        <a class="button" @click="send">Echo</a>
+      </div>
     </div>
-  </template>
+    <ul>
+      <li v-for="item in list" :key="item.id">{{ item.message }}</li>
+    </ul>
+  </div>
+</template>
 
 <script>
 // @ is an alias to /src
@@ -23,8 +21,7 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'game',
-  components: {
-  },
+  components: {},
   methods: {
     ...mapActions(['isServerRunning', 'connect', 'send'])
   },
@@ -45,7 +42,7 @@ export default {
       set (value) {
         this.$store.commit('updateMessage', value)
       }
-    }  
+    }
   }
 }
 </script>
