@@ -18,6 +18,10 @@
 				"language": "javascript",
 				"autoFix": true
 			}
-		]
+		],
+		"eslint.autoFixOnSave": true,
+		"eslint.packageManager": "yarn",
+		"eslint.run": "onSave",
+		"eslint.alwaysShowStatus": true
 	}
 }

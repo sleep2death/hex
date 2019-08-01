@@ -7,6 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/proto"
+	"github.com/golang/protobuf/ptypes"
+	"github.com/golang/protobuf/ptypes/any"
 	"github.com/gorilla/websocket"
 	cors "github.com/rs/cors/wrapper/gin"
 	"github.com/sleep2death/hex/pb"
@@ -97,12 +99,34 @@ func (c *conn) readPump() {
 		if mt == websocket.TextMessage {
 			c.send <- message
 		} else if mt == websocket.BinaryMessage {
-			msg := &pb.Message{}
-			echo := &pb.Echo{}
-			proto.Unmarshal(message, msg)
-			log.Println(msg.GetMessage().TypeUrl)
-			proto.Unmarshal(msg.GetMessage().Value, echo)
-			log.Println(echo.Message)
+			anyMsg := &any.Any{}
+			proto.Unmarshal(message, anyMsg)
+			// anyMsg := msg.GetMessage()
+
+			switch anyMsg.GetTypeUrl() {
+			case "hex/pb.Echo":
+				echo := &pb.Echo{}
+				if err = ptypes.UnmarshalAny(anyMsg, echo); err != nil {
+					log.Println("receive error:", err)
+					return
+				}
+
+				log.Println("receive echo:", echo.GetMessage())
+
+				echo.Message = echo.GetMessage() + " [echo from server -- " + time.Now().Format("3:04PM") + "]"
+				any, err := ptypes.MarshalAny(echo)
+				any.TypeUrl = "hex/pb.Echo"
+				if err != nil {
+					log.Println("marshal error:", err)
+					return
+				}
+				buf, err := proto.Marshal(any)
+				if err != nil {
+					log.Println("marshal error:", err)
+					return
+				}
+				c.send <- buf
+			}
 			// c.send <- []byte(echo.Message)
 		}
 	}
@@ -137,19 +161,7 @@ func (c *conn) writePump() {
 				return
 			}
 
-			echo := &pb.Echo{
-				Message: string(message),
-			}
-
-			log.Println("send", echo.GetMessage())
-
-			buffer, err := proto.Marshal(echo)
-
-			if err != nil {
-				return
-			}
-
-			w.Write(buffer)
+			w.Write(message)
 
 			// c.ws.WriteMessage(websocket.BinaryMessage, buffer)
 
