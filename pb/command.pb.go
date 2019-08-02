@@ -60,41 +60,88 @@ func (m *Echo) GetMessage() string {
 	return ""
 }
 
-type AddUser struct {
+type Login struct {
 	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *AddUser) Reset()         { *m = AddUser{} }
-func (m *AddUser) String() string { return proto.CompactTextString(m) }
-func (*AddUser) ProtoMessage()    {}
-func (*AddUser) Descriptor() ([]byte, []int) {
+func (m *Login) Reset()         { *m = Login{} }
+func (m *Login) String() string { return proto.CompactTextString(m) }
+func (*Login) ProtoMessage()    {}
+func (*Login) Descriptor() ([]byte, []int) {
 	return fileDescriptor_44263836b6ea8428, []int{1}
 }
 
-func (m *AddUser) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_AddUser.Unmarshal(m, b)
+func (m *Login) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Login.Unmarshal(m, b)
 }
-func (m *AddUser) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_AddUser.Marshal(b, m, deterministic)
+func (m *Login) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Login.Marshal(b, m, deterministic)
 }
-func (m *AddUser) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AddUser.Merge(m, src)
+func (m *Login) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Login.Merge(m, src)
 }
-func (m *AddUser) XXX_Size() int {
-	return xxx_messageInfo_AddUser.Size(m)
+func (m *Login) XXX_Size() int {
+	return xxx_messageInfo_Login.Size(m)
 }
-func (m *AddUser) XXX_DiscardUnknown() {
-	xxx_messageInfo_AddUser.DiscardUnknown(m)
+func (m *Login) XXX_DiscardUnknown() {
+	xxx_messageInfo_Login.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_AddUser proto.InternalMessageInfo
+var xxx_messageInfo_Login proto.InternalMessageInfo
 
-func (m *AddUser) GetName() string {
+func (m *Login) GetName() string {
 	if m != nil {
 		return m.Name
+	}
+	return ""
+}
+
+type Error struct {
+	Errorcode            uint32   `protobuf:"varint,1,opt,name=errorcode,proto3" json:"errorcode,omitempty"`
+	Message              string   `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Error) Reset()         { *m = Error{} }
+func (m *Error) String() string { return proto.CompactTextString(m) }
+func (*Error) ProtoMessage()    {}
+func (*Error) Descriptor() ([]byte, []int) {
+	return fileDescriptor_44263836b6ea8428, []int{2}
+}
+
+func (m *Error) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Error.Unmarshal(m, b)
+}
+func (m *Error) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Error.Marshal(b, m, deterministic)
+}
+func (m *Error) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Error.Merge(m, src)
+}
+func (m *Error) XXX_Size() int {
+	return xxx_messageInfo_Error.Size(m)
+}
+func (m *Error) XXX_DiscardUnknown() {
+	xxx_messageInfo_Error.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Error proto.InternalMessageInfo
+
+func (m *Error) GetErrorcode() uint32 {
+	if m != nil {
+		return m.Errorcode
+	}
+	return 0
+}
+
+func (m *Error) GetMessage() string {
+	if m != nil {
+		return m.Message
 	}
 	return ""
 }
@@ -110,7 +157,7 @@ func (m *AnyMessage) Reset()         { *m = AnyMessage{} }
 func (m *AnyMessage) String() string { return proto.CompactTextString(m) }
 func (*AnyMessage) ProtoMessage()    {}
 func (*AnyMessage) Descriptor() ([]byte, []int) {
-	return fileDescriptor_44263836b6ea8428, []int{2}
+	return fileDescriptor_44263836b6ea8428, []int{3}
 }
 
 func (m *AnyMessage) XXX_Unmarshal(b []byte) error {
@@ -140,22 +187,25 @@ func (m *AnyMessage) GetMessage() *any.Any {
 
 func init() {
 	proto.RegisterType((*Echo)(nil), "pb.Echo")
-	proto.RegisterType((*AddUser)(nil), "pb.AddUser")
+	proto.RegisterType((*Login)(nil), "pb.Login")
+	proto.RegisterType((*Error)(nil), "pb.Error")
 	proto.RegisterType((*AnyMessage)(nil), "pb.AnyMessage")
 }
 
 func init() { proto.RegisterFile("pb/command.proto", fileDescriptor_44263836b6ea8428) }
 
 var fileDescriptor_44263836b6ea8428 = []byte{
-	// 150 bytes of a gzipped FileDescriptorProto
+	// 177 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x28, 0x48, 0xd2, 0x4f,
 	0xce, 0xcf, 0xcd, 0x4d, 0xcc, 0x4b, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x2a, 0x48,
 	0x92, 0x92, 0x4c, 0xcf, 0xcf, 0x4f, 0xcf, 0x49, 0xd5, 0x07, 0x8b, 0x24, 0x95, 0xa6, 0xe9, 0x27,
 	0xe6, 0x55, 0x42, 0xa4, 0x95, 0x14, 0xb8, 0x58, 0x5c, 0x93, 0x33, 0xf2, 0x85, 0x24, 0xb8, 0xd8,
 	0x73, 0x53, 0x8b, 0x8b, 0x13, 0xd3, 0x53, 0x25, 0x18, 0x15, 0x18, 0x35, 0x38, 0x83, 0x60, 0x5c,
-	0x25, 0x59, 0x2e, 0x76, 0xc7, 0x94, 0x94, 0xd0, 0xe2, 0xd4, 0x22, 0x21, 0x21, 0x2e, 0x96, 0xbc,
-	0xc4, 0x5c, 0x98, 0x0a, 0x30, 0x5b, 0xc9, 0x86, 0x8b, 0xcb, 0x31, 0xaf, 0xd2, 0x17, 0xa2, 0x58,
-	0x48, 0x0f, 0xd5, 0x18, 0x6e, 0x23, 0x11, 0x3d, 0x88, 0xdd, 0x7a, 0x30, 0xbb, 0xf5, 0x1c, 0xf3,
-	0x2a, 0xe1, 0x86, 0x27, 0xb1, 0x81, 0x85, 0x8d, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0x6b, 0x23,
-	0x3e, 0x13, 0xb8, 0x00, 0x00, 0x00,
+	0x25, 0x69, 0x2e, 0x56, 0x9f, 0xfc, 0xf4, 0xcc, 0x3c, 0x21, 0x21, 0x2e, 0x96, 0xbc, 0xc4, 0x5c,
+	0x98, 0x3c, 0x98, 0xad, 0x64, 0xcf, 0xc5, 0xea, 0x5a, 0x54, 0x94, 0x5f, 0x24, 0x24, 0xc3, 0xc5,
+	0x99, 0x0a, 0x62, 0x24, 0xe7, 0xa7, 0x40, 0x54, 0xf0, 0x06, 0x21, 0x04, 0x90, 0x4d, 0x67, 0x42,
+	0x35, 0xdd, 0x86, 0x8b, 0xcb, 0x31, 0xaf, 0xd2, 0x17, 0xc2, 0x13, 0xd2, 0x43, 0x75, 0x05, 0xb7,
+	0x91, 0x88, 0x1e, 0xc4, 0xe9, 0x7a, 0x30, 0xa7, 0xeb, 0x39, 0xe6, 0x55, 0xc2, 0x75, 0x27, 0xb1,
+	0x81, 0x85, 0x8d, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0x7b, 0x28, 0xe8, 0xd7, 0xf7, 0x00, 0x00,
+	0x00,
 }

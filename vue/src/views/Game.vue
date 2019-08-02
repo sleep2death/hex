@@ -1,9 +1,9 @@
   <template>
-  <div>
-    <h1>Is server running? {{running}}</h1>
+  <div class="section">
+    <!-- <h1>Is server running? {{running}}</h1> -->
     <div class="field has-addons">
-      <div class="control">
-        <input v-model="message" type="text" class="input" placeholder="Input here" />
+      <div class="control fullwidth">
+        <input v-model="message" @keyup="onKeyUp" type="text" class="input" placeholder="Input here" />
       </div>
       <div class="control">
         <a class="button" @click="send">Echo</a>
@@ -23,7 +23,12 @@ export default {
   name: 'game',
   components: {},
   methods: {
-    ...mapActions(['isServerRunning', 'connect', 'send'])
+    ...mapActions(['isServerRunning', 'connect', 'send']),
+    onKeyUp (evt) {
+      if (evt.key === 'Enter') {
+        this.send()
+      }
+    }
   },
   mounted () {
     this.isServerRunning()
@@ -46,3 +51,9 @@ export default {
   }
 }
 </script>
+
+<style lang="css">
+  .fullwidth {
+    width: 100%;
+  }
+</style>

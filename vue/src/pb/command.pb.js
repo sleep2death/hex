@@ -203,24 +203,24 @@ export const pb = $root.pb = (() => {
         return Echo;
     })();
 
-    pb.AddUser = (function() {
+    pb.Login = (function() {
 
         /**
-         * Properties of an AddUser.
+         * Properties of a Login.
          * @memberof pb
-         * @interface IAddUser
-         * @property {string|null} [name] AddUser name
+         * @interface ILogin
+         * @property {string|null} [name] Login name
          */
 
         /**
-         * Constructs a new AddUser.
+         * Constructs a new Login.
          * @memberof pb
-         * @classdesc Represents an AddUser.
-         * @implements IAddUser
+         * @classdesc Represents a Login.
+         * @implements ILogin
          * @constructor
-         * @param {pb.IAddUser=} [properties] Properties to set
+         * @param {pb.ILogin=} [properties] Properties to set
          */
-        function AddUser(properties) {
+        function Login(properties) {
             if (properties)
                 for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -228,35 +228,35 @@ export const pb = $root.pb = (() => {
         }
 
         /**
-         * AddUser name.
+         * Login name.
          * @member {string} name
-         * @memberof pb.AddUser
+         * @memberof pb.Login
          * @instance
          */
-        AddUser.prototype.name = "";
+        Login.prototype.name = "";
 
         /**
-         * Creates a new AddUser instance using the specified properties.
+         * Creates a new Login instance using the specified properties.
          * @function create
-         * @memberof pb.AddUser
+         * @memberof pb.Login
          * @static
-         * @param {pb.IAddUser=} [properties] Properties to set
-         * @returns {pb.AddUser} AddUser instance
+         * @param {pb.ILogin=} [properties] Properties to set
+         * @returns {pb.Login} Login instance
          */
-        AddUser.create = function create(properties) {
-            return new AddUser(properties);
+        Login.create = function create(properties) {
+            return new Login(properties);
         };
 
         /**
-         * Encodes the specified AddUser message. Does not implicitly {@link pb.AddUser.verify|verify} messages.
+         * Encodes the specified Login message. Does not implicitly {@link pb.Login.verify|verify} messages.
          * @function encode
-         * @memberof pb.AddUser
+         * @memberof pb.Login
          * @static
-         * @param {pb.IAddUser} message AddUser message or plain object to encode
+         * @param {pb.ILogin} message Login message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        AddUser.encode = function encode(message, writer) {
+        Login.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
             if (message.name != null && message.hasOwnProperty("name"))
@@ -265,33 +265,33 @@ export const pb = $root.pb = (() => {
         };
 
         /**
-         * Encodes the specified AddUser message, length delimited. Does not implicitly {@link pb.AddUser.verify|verify} messages.
+         * Encodes the specified Login message, length delimited. Does not implicitly {@link pb.Login.verify|verify} messages.
          * @function encodeDelimited
-         * @memberof pb.AddUser
+         * @memberof pb.Login
          * @static
-         * @param {pb.IAddUser} message AddUser message or plain object to encode
+         * @param {pb.ILogin} message Login message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        AddUser.encodeDelimited = function encodeDelimited(message, writer) {
+        Login.encodeDelimited = function encodeDelimited(message, writer) {
             return this.encode(message, writer).ldelim();
         };
 
         /**
-         * Decodes an AddUser message from the specified reader or buffer.
+         * Decodes a Login message from the specified reader or buffer.
          * @function decode
-         * @memberof pb.AddUser
+         * @memberof pb.Login
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {pb.AddUser} AddUser
+         * @returns {pb.Login} Login
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        AddUser.decode = function decode(reader, length) {
+        Login.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.pb.AddUser();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.pb.Login();
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
@@ -307,30 +307,30 @@ export const pb = $root.pb = (() => {
         };
 
         /**
-         * Decodes an AddUser message from the specified reader or buffer, length delimited.
+         * Decodes a Login message from the specified reader or buffer, length delimited.
          * @function decodeDelimited
-         * @memberof pb.AddUser
+         * @memberof pb.Login
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {pb.AddUser} AddUser
+         * @returns {pb.Login} Login
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        AddUser.decodeDelimited = function decodeDelimited(reader) {
+        Login.decodeDelimited = function decodeDelimited(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
             return this.decode(reader, reader.uint32());
         };
 
         /**
-         * Verifies an AddUser message.
+         * Verifies a Login message.
          * @function verify
-         * @memberof pb.AddUser
+         * @memberof pb.Login
          * @static
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        AddUser.verify = function verify(message) {
+        Login.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
             if (message.name != null && message.hasOwnProperty("name"))
@@ -340,32 +340,32 @@ export const pb = $root.pb = (() => {
         };
 
         /**
-         * Creates an AddUser message from a plain object. Also converts values to their respective internal types.
+         * Creates a Login message from a plain object. Also converts values to their respective internal types.
          * @function fromObject
-         * @memberof pb.AddUser
+         * @memberof pb.Login
          * @static
          * @param {Object.<string,*>} object Plain object
-         * @returns {pb.AddUser} AddUser
+         * @returns {pb.Login} Login
          */
-        AddUser.fromObject = function fromObject(object) {
-            if (object instanceof $root.pb.AddUser)
+        Login.fromObject = function fromObject(object) {
+            if (object instanceof $root.pb.Login)
                 return object;
-            let message = new $root.pb.AddUser();
+            let message = new $root.pb.Login();
             if (object.name != null)
                 message.name = String(object.name);
             return message;
         };
 
         /**
-         * Creates a plain object from an AddUser message. Also converts values to other types if specified.
+         * Creates a plain object from a Login message. Also converts values to other types if specified.
          * @function toObject
-         * @memberof pb.AddUser
+         * @memberof pb.Login
          * @static
-         * @param {pb.AddUser} message AddUser
+         * @param {pb.Login} message Login
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        AddUser.toObject = function toObject(message, options) {
+        Login.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
             let object = {};
@@ -377,17 +377,227 @@ export const pb = $root.pb = (() => {
         };
 
         /**
-         * Converts this AddUser to JSON.
+         * Converts this Login to JSON.
          * @function toJSON
-         * @memberof pb.AddUser
+         * @memberof pb.Login
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        AddUser.prototype.toJSON = function toJSON() {
+        Login.prototype.toJSON = function toJSON() {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
-        return AddUser;
+        return Login;
+    })();
+
+    pb.Error = (function() {
+
+        /**
+         * Properties of an Error.
+         * @memberof pb
+         * @interface IError
+         * @property {number|null} [errorcode] Error errorcode
+         * @property {string|null} [message] Error message
+         */
+
+        /**
+         * Constructs a new Error.
+         * @memberof pb
+         * @classdesc Represents an Error.
+         * @implements IError
+         * @constructor
+         * @param {pb.IError=} [properties] Properties to set
+         */
+        function Error(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * Error errorcode.
+         * @member {number} errorcode
+         * @memberof pb.Error
+         * @instance
+         */
+        Error.prototype.errorcode = 0;
+
+        /**
+         * Error message.
+         * @member {string} message
+         * @memberof pb.Error
+         * @instance
+         */
+        Error.prototype.message = "";
+
+        /**
+         * Creates a new Error instance using the specified properties.
+         * @function create
+         * @memberof pb.Error
+         * @static
+         * @param {pb.IError=} [properties] Properties to set
+         * @returns {pb.Error} Error instance
+         */
+        Error.create = function create(properties) {
+            return new Error(properties);
+        };
+
+        /**
+         * Encodes the specified Error message. Does not implicitly {@link pb.Error.verify|verify} messages.
+         * @function encode
+         * @memberof pb.Error
+         * @static
+         * @param {pb.IError} message Error message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Error.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.errorcode != null && message.hasOwnProperty("errorcode"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.errorcode);
+            if (message.message != null && message.hasOwnProperty("message"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.message);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified Error message, length delimited. Does not implicitly {@link pb.Error.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof pb.Error
+         * @static
+         * @param {pb.IError} message Error message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        Error.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes an Error message from the specified reader or buffer.
+         * @function decode
+         * @memberof pb.Error
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {pb.Error} Error
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Error.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.pb.Error();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.errorcode = reader.uint32();
+                    break;
+                case 2:
+                    message.message = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes an Error message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof pb.Error
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {pb.Error} Error
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        Error.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies an Error message.
+         * @function verify
+         * @memberof pb.Error
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        Error.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.errorcode != null && message.hasOwnProperty("errorcode"))
+                if (!$util.isInteger(message.errorcode))
+                    return "errorcode: integer expected";
+            if (message.message != null && message.hasOwnProperty("message"))
+                if (!$util.isString(message.message))
+                    return "message: string expected";
+            return null;
+        };
+
+        /**
+         * Creates an Error message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof pb.Error
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {pb.Error} Error
+         */
+        Error.fromObject = function fromObject(object) {
+            if (object instanceof $root.pb.Error)
+                return object;
+            let message = new $root.pb.Error();
+            if (object.errorcode != null)
+                message.errorcode = object.errorcode >>> 0;
+            if (object.message != null)
+                message.message = String(object.message);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from an Error message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof pb.Error
+         * @static
+         * @param {pb.Error} message Error
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        Error.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                object.errorcode = 0;
+                object.message = "";
+            }
+            if (message.errorcode != null && message.hasOwnProperty("errorcode"))
+                object.errorcode = message.errorcode;
+            if (message.message != null && message.hasOwnProperty("message"))
+                object.message = message.message;
+            return object;
+        };
+
+        /**
+         * Converts this Error to JSON.
+         * @function toJSON
+         * @memberof pb.Error
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        Error.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return Error;
     })();
 
     pb.AnyMessage = (function() {

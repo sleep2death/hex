@@ -7,11 +7,23 @@ message Echo {
     string message = 1;
 }
 
-message AddUser {
-    string name = 1;
+message Error {
+    uint32 errorcode = 1;
+    string message = 2;
 }
 
 message AnyMessage {
     google.protobuf.Any message = 1;
 }
 
+message User {
+    string name = 1;
+}
+
+message LoginReq {
+    string name = 1;
+}
+
+message LoginResp {
+    bool success = 1;
+}

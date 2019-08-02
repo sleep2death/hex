@@ -84,7 +84,7 @@ func (c *conn) readPump() {
 
 	// proto.RegisterType((*pb.Echo)(nil), "Echo")
 
-	// read loop
+readLoop:
 	for {
 		mt, message, err := c.ws.ReadMessage()
 
@@ -92,7 +92,7 @@ func (c *conn) readPump() {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway) {
 				log.Printf("error: %v", err)
 			}
-			break
+			break readLoop
 		}
 
 		// test echo
@@ -107,24 +107,34 @@ func (c *conn) readPump() {
 			case "hex/pb.Echo":
 				echo := &pb.Echo{}
 				if err = ptypes.UnmarshalAny(anyMsg, echo); err != nil {
-					log.Println("receive error:", err)
-					return
+					log.Println("unmashal error:", err)
+					break
 				}
-
-				log.Println("receive echo:", echo.GetMessage())
 
 				echo.Message = echo.GetMessage() + " [echo from server -- " + time.Now().Format("3:04PM") + "]"
 				any, err := ptypes.MarshalAny(echo)
-				any.TypeUrl = "hex/pb.Echo"
 				if err != nil {
 					log.Println("marshal error:", err)
-					return
+					break
 				}
+				any.TypeUrl = "hex/pb.Echo"
 				buf, err := proto.Marshal(any)
 				if err != nil {
 					log.Println("marshal error:", err)
-					return
+					break
 				}
+				c.send <- buf
+			default:
+				// err = errors.New("Can't determine message type:" + anyMsg.GetTypeUrl())
+				errMsg := &pb.Error{Message: "Command not found: " + anyMsg.GetTypeUrl()}
+				any, err := ptypes.MarshalAny(errMsg)
+
+				if err != nil {
+					log.Println("marshal error:", err)
+					break
+				}
+				any.TypeUrl = "hex/pb.Error"
+				buf, err := proto.Marshal(any)
 				c.send <- buf
 			}
 			// c.send <- []byte(echo.Message)
