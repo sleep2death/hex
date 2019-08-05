@@ -60,45 +60,6 @@ func (m *Echo) GetMessage() string {
 	return ""
 }
 
-type Login struct {
-	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Login) Reset()         { *m = Login{} }
-func (m *Login) String() string { return proto.CompactTextString(m) }
-func (*Login) ProtoMessage()    {}
-func (*Login) Descriptor() ([]byte, []int) {
-	return fileDescriptor_44263836b6ea8428, []int{1}
-}
-
-func (m *Login) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Login.Unmarshal(m, b)
-}
-func (m *Login) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Login.Marshal(b, m, deterministic)
-}
-func (m *Login) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Login.Merge(m, src)
-}
-func (m *Login) XXX_Size() int {
-	return xxx_messageInfo_Login.Size(m)
-}
-func (m *Login) XXX_DiscardUnknown() {
-	xxx_messageInfo_Login.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Login proto.InternalMessageInfo
-
-func (m *Login) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
 type Error struct {
 	Errorcode            uint32   `protobuf:"varint,1,opt,name=errorcode,proto3" json:"errorcode,omitempty"`
 	Message              string   `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
@@ -111,7 +72,7 @@ func (m *Error) Reset()         { *m = Error{} }
 func (m *Error) String() string { return proto.CompactTextString(m) }
 func (*Error) ProtoMessage()    {}
 func (*Error) Descriptor() ([]byte, []int) {
-	return fileDescriptor_44263836b6ea8428, []int{2}
+	return fileDescriptor_44263836b6ea8428, []int{1}
 }
 
 func (m *Error) XXX_Unmarshal(b []byte) error {
@@ -157,7 +118,7 @@ func (m *AnyMessage) Reset()         { *m = AnyMessage{} }
 func (m *AnyMessage) String() string { return proto.CompactTextString(m) }
 func (*AnyMessage) ProtoMessage()    {}
 func (*AnyMessage) Descriptor() ([]byte, []int) {
-	return fileDescriptor_44263836b6ea8428, []int{3}
+	return fileDescriptor_44263836b6ea8428, []int{2}
 }
 
 func (m *AnyMessage) XXX_Unmarshal(b []byte) error {
@@ -185,27 +146,148 @@ func (m *AnyMessage) GetMessage() *any.Any {
 	return nil
 }
 
+type User struct {
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *User) Reset()         { *m = User{} }
+func (m *User) String() string { return proto.CompactTextString(m) }
+func (*User) ProtoMessage()    {}
+func (*User) Descriptor() ([]byte, []int) {
+	return fileDescriptor_44263836b6ea8428, []int{3}
+}
+
+func (m *User) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_User.Unmarshal(m, b)
+}
+func (m *User) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_User.Marshal(b, m, deterministic)
+}
+func (m *User) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_User.Merge(m, src)
+}
+func (m *User) XXX_Size() int {
+	return xxx_messageInfo_User.Size(m)
+}
+func (m *User) XXX_DiscardUnknown() {
+	xxx_messageInfo_User.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_User proto.InternalMessageInfo
+
+func (m *User) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+type LoginReq struct {
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *LoginReq) Reset()         { *m = LoginReq{} }
+func (m *LoginReq) String() string { return proto.CompactTextString(m) }
+func (*LoginReq) ProtoMessage()    {}
+func (*LoginReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_44263836b6ea8428, []int{4}
+}
+
+func (m *LoginReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_LoginReq.Unmarshal(m, b)
+}
+func (m *LoginReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_LoginReq.Marshal(b, m, deterministic)
+}
+func (m *LoginReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_LoginReq.Merge(m, src)
+}
+func (m *LoginReq) XXX_Size() int {
+	return xxx_messageInfo_LoginReq.Size(m)
+}
+func (m *LoginReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_LoginReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_LoginReq proto.InternalMessageInfo
+
+func (m *LoginReq) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+type LoginResp struct {
+	User                 *User    `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *LoginResp) Reset()         { *m = LoginResp{} }
+func (m *LoginResp) String() string { return proto.CompactTextString(m) }
+func (*LoginResp) ProtoMessage()    {}
+func (*LoginResp) Descriptor() ([]byte, []int) {
+	return fileDescriptor_44263836b6ea8428, []int{5}
+}
+
+func (m *LoginResp) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_LoginResp.Unmarshal(m, b)
+}
+func (m *LoginResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_LoginResp.Marshal(b, m, deterministic)
+}
+func (m *LoginResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_LoginResp.Merge(m, src)
+}
+func (m *LoginResp) XXX_Size() int {
+	return xxx_messageInfo_LoginResp.Size(m)
+}
+func (m *LoginResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_LoginResp.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_LoginResp proto.InternalMessageInfo
+
+func (m *LoginResp) GetUser() *User {
+	if m != nil {
+		return m.User
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*Echo)(nil), "pb.Echo")
-	proto.RegisterType((*Login)(nil), "pb.Login")
 	proto.RegisterType((*Error)(nil), "pb.Error")
 	proto.RegisterType((*AnyMessage)(nil), "pb.AnyMessage")
+	proto.RegisterType((*User)(nil), "pb.User")
+	proto.RegisterType((*LoginReq)(nil), "pb.LoginReq")
+	proto.RegisterType((*LoginResp)(nil), "pb.LoginResp")
 }
 
 func init() { proto.RegisterFile("pb/command.proto", fileDescriptor_44263836b6ea8428) }
 
 var fileDescriptor_44263836b6ea8428 = []byte{
-	// 177 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x28, 0x48, 0xd2, 0x4f,
-	0xce, 0xcf, 0xcd, 0x4d, 0xcc, 0x4b, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x2a, 0x48,
-	0x92, 0x92, 0x4c, 0xcf, 0xcf, 0x4f, 0xcf, 0x49, 0xd5, 0x07, 0x8b, 0x24, 0x95, 0xa6, 0xe9, 0x27,
-	0xe6, 0x55, 0x42, 0xa4, 0x95, 0x14, 0xb8, 0x58, 0x5c, 0x93, 0x33, 0xf2, 0x85, 0x24, 0xb8, 0xd8,
-	0x73, 0x53, 0x8b, 0x8b, 0x13, 0xd3, 0x53, 0x25, 0x18, 0x15, 0x18, 0x35, 0x38, 0x83, 0x60, 0x5c,
-	0x25, 0x69, 0x2e, 0x56, 0x9f, 0xfc, 0xf4, 0xcc, 0x3c, 0x21, 0x21, 0x2e, 0x96, 0xbc, 0xc4, 0x5c,
-	0x98, 0x3c, 0x98, 0xad, 0x64, 0xcf, 0xc5, 0xea, 0x5a, 0x54, 0x94, 0x5f, 0x24, 0x24, 0xc3, 0xc5,
-	0x99, 0x0a, 0x62, 0x24, 0xe7, 0xa7, 0x40, 0x54, 0xf0, 0x06, 0x21, 0x04, 0x90, 0x4d, 0x67, 0x42,
-	0x35, 0xdd, 0x86, 0x8b, 0xcb, 0x31, 0xaf, 0xd2, 0x17, 0xc2, 0x13, 0xd2, 0x43, 0x75, 0x05, 0xb7,
-	0x91, 0x88, 0x1e, 0xc4, 0xe9, 0x7a, 0x30, 0xa7, 0xeb, 0x39, 0xe6, 0x55, 0xc2, 0x75, 0x27, 0xb1,
-	0x81, 0x85, 0x8d, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0x7b, 0x28, 0xe8, 0xd7, 0xf7, 0x00, 0x00,
-	0x00,
+	// 215 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x4e, 0x3d, 0x4b, 0xc5, 0x30,
+	0x14, 0xe5, 0x3d, 0xa2, 0xbe, 0x5e, 0x11, 0x24, 0x38, 0x3c, 0x4b, 0x91, 0xd2, 0x49, 0x97, 0x14,
+	0x74, 0x15, 0xa4, 0x43, 0x37, 0x5d, 0x02, 0xfe, 0x80, 0xa4, 0x8d, 0x51, 0x30, 0xb9, 0x31, 0xb1,
+	0x43, 0xff, 0xbd, 0x34, 0x69, 0xa9, 0x85, 0xb7, 0x9d, 0x8f, 0x7b, 0xcf, 0x39, 0x70, 0xed, 0x64,
+	0xdd, 0xa1, 0x31, 0xc2, 0xf6, 0xcc, 0x79, 0xfc, 0x45, 0xba, 0x77, 0x32, 0xbf, 0xd5, 0x88, 0xfa,
+	0x5b, 0xd5, 0x51, 0x91, 0xc3, 0x47, 0x2d, 0xec, 0x98, 0xec, 0xaa, 0x04, 0xd2, 0x76, 0x9f, 0x48,
+	0x8f, 0x70, 0x61, 0x54, 0x08, 0x42, 0xab, 0xe3, 0xae, 0xdc, 0xdd, 0x67, 0x7c, 0xa1, 0xd5, 0x0b,
+	0x9c, 0xb5, 0xde, 0xa3, 0xa7, 0x05, 0x64, 0x6a, 0x02, 0x1d, 0xf6, 0xe9, 0xe8, 0x8a, 0xaf, 0xc2,
+	0xff, 0x80, 0xfd, 0x36, 0xe0, 0x19, 0xa0, 0xb1, 0xe3, 0x5b, 0x62, 0x94, 0x6d, 0x8b, 0x2e, 0x1f,
+	0x6f, 0x58, 0x5a, 0xc7, 0x96, 0x75, 0xac, 0xb1, 0xe3, 0xfa, 0x9d, 0x03, 0x79, 0x0f, 0xca, 0x53,
+	0x0a, 0xc4, 0x0a, 0xb3, 0xac, 0x8b, 0xb8, 0xba, 0x83, 0xc3, 0x2b, 0xea, 0x2f, 0xcb, 0xd5, 0xcf,
+	0x49, 0xff, 0x01, 0xb2, 0xd9, 0x0f, 0x8e, 0x16, 0x40, 0x86, 0xa0, 0xfc, 0xdc, 0x7a, 0x60, 0x4e,
+	0xb2, 0x29, 0x98, 0x47, 0x55, 0x9e, 0xc7, 0xf6, 0xa7, 0xbf, 0x00, 0x00, 0x00, 0xff, 0xff, 0xd8,
+	0xb4, 0x43, 0x99, 0x41, 0x01, 0x00, 0x00,
 }

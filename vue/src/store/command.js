@@ -1,4 +1,5 @@
 import root from '@/pb/command.pb'
+import { encode, decode } from './handlers'
 
 export default {
   state: {
@@ -36,16 +37,7 @@ export default {
       }
       conn.onmessage = function (evt) {
         let message = root.google.protobuf.Any.decode(new Uint8Array(evt.data))
-        switch (message.type_url) {
-          case 'hex/pb.Echo':
-            let echo = root.pb.Echo.decode(message.value)
-            commit('updateList', echo.message)
-            break
-          case 'hex/pb.Error':
-            let err = root.pb.Error.decode(message.value)
-            commit('updateList', 'Error: ' + err.message)
-            break
-        }
+        decode(message, commit)
       }
       conn.onclose = function (evt) {
         commit('close', conn)
@@ -66,9 +58,6 @@ export default {
   }
 }
 
-let pb = root.pb
-let Any = root.google.protobuf.Any
-
 function parseCommand (message) {
   let parts = message.trim().split(' ')
   let filtered = parts.filter(el => {
@@ -78,23 +67,5 @@ function parseCommand (message) {
   let cmd = filtered[0]
   let args = filtered.slice(1)
 
-  let msg = null
-  let anyMsg = null
-
-  switch (cmd) {
-    // Echo From Server
-    case 'echo':
-      msg = pb.Echo.create({ message: args.join(' ') })
-      anyMsg = Any.create({ type_url: 'hex/pb.Echo', value: root.pb.Echo.encode(msg).finish() })
-      break
-    // Login by name or create one by name
-    case 'login':
-      msg = pb.Login.create({ name: args[0] })
-      anyMsg = Any.create({ type_url: 'hex/pb.Login', value: root.pb.Login.encode(msg).finish() })
-      break
-  }
-
-  if (anyMsg) {
-    return Any.encode(anyMsg).finish()
-  }
+  return encode(cmd, args)
 }

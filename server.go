@@ -1,8 +1,12 @@
 package hex
 
 import (
+	"context"
+	"errors"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -10,8 +14,11 @@ import (
 	"github.com/golang/protobuf/ptypes"
 	"github.com/golang/protobuf/ptypes/any"
 	"github.com/gorilla/websocket"
+	"github.com/joho/godotenv"
 	cors "github.com/rs/cors/wrapper/gin"
 	"github.com/sleep2death/hex/pb"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 const (
@@ -31,6 +38,9 @@ const (
 var (
 	newline = []byte{'\n'}
 	space   = []byte{' '}
+
+	errUnMashal = errors.New("Message Decoding Error")
+	errMashal   = errors.New("Message Encoding Error")
 )
 
 var upgrader = websocket.Upgrader{
@@ -42,9 +52,32 @@ var upgrader = websocket.Upgrader{
 
 // Serve the http requests
 func Serve(addr string) {
+	// load env file
+	err := godotenv.Load("./.env")
+
+	if err != nil {
+		log.Fatal("Can not load .env file")
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	uri := fmt.Sprintf(`mongodb://%s`, os.Getenv("MONGO_SERVER"))
+
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
+	if err != nil {
+		log.Fatalf("Can not connect to mongo: %v", err)
+	}
+
+	// test ping to db
+	if err = client.Ping(ctx, nil); err != nil {
+		log.Fatalf("Can not connect to db: %v", err)
+	} else {
+		log.Println("Connected to mongo.")
+	}
+
 	// create the router
 	r := gin.Default()
-
 	// ignore cors limit
 	r.Use(cors.Default())
 
@@ -82,8 +115,6 @@ func (c *conn) readPump() {
 		return nil
 	})
 
-	// proto.RegisterType((*pb.Echo)(nil), "Echo")
-
 readLoop:
 	for {
 		mt, message, err := c.ws.ReadMessage()
@@ -95,49 +126,43 @@ readLoop:
 			break readLoop
 		}
 
-		// test echo
 		if mt == websocket.TextMessage {
-			c.send <- message
+			// TODO: handle text message here
+			// c.send <- message
 		} else if mt == websocket.BinaryMessage {
 			anyMsg := &any.Any{}
-			proto.Unmarshal(message, anyMsg)
-			// anyMsg := msg.GetMessage()
 
-			switch anyMsg.GetTypeUrl() {
-			case "hex/pb.Echo":
-				echo := &pb.Echo{}
-				if err = ptypes.UnmarshalAny(anyMsg, echo); err != nil {
-					log.Println("unmashal error:", err)
-					break
-				}
+			// decoding any message
+			if proto.Unmarshal(message, anyMsg); err != nil {
+				log.Println("unmashal anyMsg error:", err)
+				err = errUnMashal
+				break
+			}
 
-				echo.Message = echo.GetMessage() + " [echo from server -- " + time.Now().Format("3:04PM") + "]"
-				any, err := ptypes.MarshalAny(echo)
-				if err != nil {
-					log.Println("marshal error:", err)
-					break
-				}
-				any.TypeUrl = "hex/pb.Echo"
-				buf, err := proto.Marshal(any)
-				if err != nil {
-					log.Println("marshal error:", err)
-					break
-				}
-				c.send <- buf
-			default:
-				// err = errors.New("Can't determine message type:" + anyMsg.GetTypeUrl())
-				errMsg := &pb.Error{Message: "Command not found: " + anyMsg.GetTypeUrl()}
+			// pass buffer to handler
+			buf, err := handle(anyMsg.GetTypeUrl(), anyMsg.GetValue())
+
+			// error handling
+			if err != nil {
+				errMsg := &pb.Error{Message: err.Error()}
 				any, err := ptypes.MarshalAny(errMsg)
 
 				if err != nil {
 					log.Println("marshal error:", err)
-					break
+					continue
 				}
 				any.TypeUrl = "hex/pb.Error"
-				buf, err := proto.Marshal(any)
+				buf, err = proto.Marshal(any)
+
+				if err != nil {
+					log.Println("marshal error:", err)
+					continue
+				}
+			}
+
+			if buf != nil && len(buf) > 0 {
 				c.send <- buf
 			}
-			// c.send <- []byte(echo.Message)
 		}
 	}
 }

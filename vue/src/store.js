@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import echo from './store/echo'
+import command from './store/command'
 
 Vue.use(Vuex)
 
@@ -28,6 +28,6 @@ export default new Vuex.Store({
     }
   },
   modules: {
-    echo
+    command
   }
 })
