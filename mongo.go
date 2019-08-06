@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -27,13 +26,6 @@ func (c CName) String() string {
 type DataBase struct {
 	DB      *mongo.Database
 	Context context.Context
-}
-
-// User struct to hold user data
-type User struct {
-	ID         string             `bson:"openid"`
-	Session    string             `bson:"session"`
-	CreateTime primitive.DateTime `bson:"create"`
 }
 
 // EnsureIndex is an util function to ensure index of a certain collection
