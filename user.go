@@ -7,6 +7,10 @@ type User struct {
 	Name       string
 	LastUpdate time.Time
 	Deck       []Card
+
+	DiscardPile []Card
+	ExhaustPile []Card
+	DrawPile    []Card
 }
 
 // Card instance
