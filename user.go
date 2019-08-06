@@ -13,12 +13,29 @@ type User struct {
 	DrawPile    []Card
 }
 
+// ICard inferface
+type ICard interface {
+	GameStart()
+	GameEnd()
+
+	RoundStart()
+	RoundEnd()
+
+	DrawingStart()
+	DrawingEnd()
+
+	PlayingStart()
+	PlayingEnd()
+}
+
 // Card instance
 type Card struct {
-	Name   string
-	Type   CardType
-	Energy uint
-	Rarity uint
+	Name        string
+	Picture     string
+	Description string
+	Type        CardType
+	Energy      uint
+	Rarity      uint
 }
 
 // CardType defines which type is the Card
