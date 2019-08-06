@@ -38,11 +38,11 @@ export default {
     ...mapState({
       // map this.count to store.state.count
       running: 'running',
-      list: state => state.echo.list
+      list: state => state.command.list
     }),
     message: {
       get () {
-        return this.$store.state.echo.message
+        return this.$store.state.command.message
       },
       set (value) {
         this.$store.commit('updateMessage', value)
