@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -27,20 +28,32 @@ func main() {
 	}
 
 	// Find the review items
+	trim := func(index int, children *goquery.Selection) string {
+		return strings.TrimSpace(children.Eq(index).Text())
+	}
+
 	doc.Find(".article-table tr").Each(func(i int, tr *goquery.Selection) {
 		// For each item found, get the band and title
 		children := tr.Children()
 
-		name := strings.TrimSpace(children.Eq(0).Text())
+		name := trim(0, children)
+		if len(name) == 0 {
+			log.Fatal("card name not found")
+		}
+
+		rarity := 0
+		if rarity, err := strconv.ParseUint(trim(2, children), 10, 32); err != nil {
+			log.Fatalf("card rarity parse error: %s, %d", name, rarity)
+		}
+
+		ctype := trim(3, children)
+		energy := trim(4, children)
+		desc := trim(5, children)
+
 		img, exist := children.Eq(1).Find("img").First().Attr("data-src")
 		if exist == false {
 			img, _ = children.Eq(1).Find("img").First().Attr("src")
 		}
-
-		rarity := strings.TrimSpace(children.Eq(2).Text())
-		ctype := strings.TrimSpace(children.Eq(3).Text())
-		energy := strings.TrimSpace(children.Eq(4).Text())
-		desc := strings.TrimSpace(children.Eq(5).Text())
 
 		fmt.Printf("%s: Rarity - %s | Type - %s | Energy - %s | Desc - %s | Image - %s \n", name, rarity, ctype, energy, desc, img)
 	})
